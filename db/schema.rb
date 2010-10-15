@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20100915071424) do
     t.text     "description"
     t.string   "rating"
     t.datetime "released_on"
+    t.string   "genre"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

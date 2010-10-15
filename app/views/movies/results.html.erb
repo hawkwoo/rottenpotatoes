@@ -1,0 +1,8 @@
+<h1> Results </h1>
+
+<% @results.each do |entry| %>
+  Title: <%= entry[:title] %><br/>
+  Overview: <%= entry[:overview] %><br/> 
+  Rating: <%= entry[:rating] %><br/> 
+  Released: <%= entry[:released] %><br/><br/>
+<% end %>

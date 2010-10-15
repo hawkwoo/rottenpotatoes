@@ -10,6 +10,42 @@ class MoviesController < ApplicationController
     end
   end
 
+  def search
+    @movie = Movie.new
+
+    respond_to do |format|
+      format.html # search.html.erb
+      format.xml  { render :xml => @movie }
+    end
+  end
+
+  def results
+    @movie = Movie.new(params[:movie])
+    
+    if @movie.title.empty?
+      redirect_to("/movies/search", :notice => "Please enter a valid title.")
+    else
+      #require 'open-uri'
+      #results = open("http://api.themoviedb.org/2.1/Movie.search/en/xml/0e4d2f4ef3b595d34223dd7f2f51767d/Transformers")
+      #results.each do |line|
+        #puts line
+      #end
+      Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
+      searchResults = TmdbMovie.find(:title=>@movie.title, :limit=>5, :expand_results=>false)
+      @results = []
+      searchResults.each do |entry|
+        @results <<
+        {
+          :title => entry.name,
+          :overview => entry.overview,
+          :rating => entry.rating,
+          :released => entry.released,
+          :genre => entry.genres
+        }
+      end
+    end
+  end
+
   # GET /movies/1
   # GET /movies/1.xml
   def show

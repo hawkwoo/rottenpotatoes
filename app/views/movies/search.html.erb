@@ -1,0 +1,15 @@
+<h1> Search </h1>
+
+<% form_for(@movie, :url=>{:controller=>"movies",:action=>"results"}) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.submit 'Search' %>
+  </p>
+<% end %>
+
+<%= link_to 'Back', movies_path %>
