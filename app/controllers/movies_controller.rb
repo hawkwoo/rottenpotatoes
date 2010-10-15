@@ -22,28 +22,62 @@ class MoviesController < ApplicationController
   def results
     @movie = Movie.new(params[:movie])
     
-    if @movie.title.empty?
+    if params[:title].empty?
       redirect_to("/movies/search", :notice => "Please enter a valid title.")
     else
-      #require 'open-uri'
-      #results = open("http://api.themoviedb.org/2.1/Movie.search/en/xml/0e4d2f4ef3b595d34223dd7f2f51767d/Transformers")
-      #results.each do |line|
-        #puts line
-      #end
-      Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
-      searchResults = TmdbMovie.find(:title=>@movie.title, :limit=>5, :expand_results=>false)
-      @results = []
-      searchResults.each do |entry|
-        @results <<
-        {
-          :title => entry.name,
-          :overview => entry.overview,
-          :rating => entry.rating,
-          :released => entry.released,
-          :genre => entry.genres
-        }
+      @results = getFiveMoviesFromTmdb(params[:title])
+      if @results.empty?
+        redirect_to("/movies/search", :notice => "Movie not found.")
       end
     end
+  end
+  
+  # returns a collection of 5 {title, id} pairs
+  # corresponding to search results for title
+  def getFiveMoviesFromTmdb(title)
+    Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
+    searchResults = TmdbMovie.find(:title=>title, :limit=>5, :expand_results=>false)
+    results = []
+    searchResults.each do |movie|
+      results << 
+      {
+        :title => movie.name,
+        :id => movie.id
+      }
+    end
+    results
+  end
+  
+  # returns a Tmdb entry for the title
+  def getOneMovieFromTmdb(id)
+    Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
+    movie = TmdbMovie.find(:id=>id, :limit=>1, :expand_results=>true)
+  end
+  
+  # returns a Movie with the fields from a Tmdb entry
+  def createMovieFromTmdbResult(entry)
+    movie = Movie.new
+    movie.title = entry.name
+    movie.overview = entry.overview
+    movie.rating = entry.certification
+    movie.released_on = Time.parse(entry.released)
+    movie.genres = tmdbGenresToString(entry.genres)
+    movie
+  end
+  
+  def tmdbGenresToString(genres)
+    result = ""
+    if genres
+      genres.each do |genre|
+        result += (genre.name + ", ")
+      end
+      result = result[0, result.length - 2] if not result.empty?
+    end
+    result
+  end
+  
+  def add
+    @movie = createMovieFromTmdbResult(getOneMovieFromTmdb(params[:id]))
   end
 
   # GET /movies/1

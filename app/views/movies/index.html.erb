@@ -11,7 +11,7 @@
 <% @movies.each do |movie| %>
   <tr>
     <td><%=h movie.title %></td>
-    <td><%=h movie.description %></td>
+    <td><%=h movie.overview %></td>
     <td><%=h movie.rating %></td>
     <td><%=h movie.released_on %></td>
     <td><%= link_to 'Show', movie %></td>
@@ -23,4 +23,4 @@
 
 <br />
 
-<%= link_to 'New movie', new_movie_path %>
+<%= link_to 'Add a movie', '/movies/search' %>

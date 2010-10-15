@@ -1,14 +1,10 @@
 <h1> Search </h1>
 
-<% form_for(@movie, :url=>{:controller=>"movies",:action=>"results"}) do |f| %>
-  <%= f.error_messages %>
-
+<% form_tag '/movies/results', :method => 'get' do %>
   <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.submit 'Search' %>
+		Title:<br>
+    <%= text_field_tag :title, params[:title], :size => 35 %><br><br>
+    <%= submit_tag "Search", :name => nil %>
   </p>
 <% end %>
 

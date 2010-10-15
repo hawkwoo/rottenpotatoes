@@ -1,10 +1,10 @@
 class Movie < ActiveRecord::Base
-  
-  validates_presence_of :title, :description
-  validates_uniqueness_of :title
-  validates_length_of :description, :minimum => 10
-  validates_inclusion_of :rating, :in => ['G', 'PG', 'PG-13', 'R', 'NC-17']
 
+  #validates_presence_of :title#, :description
+  #validates_uniqueness_of :title
+  #validates_length_of :description, :minimum => 10
+  #validates_inclusion_of :rating, :in => ['G', 'PG', 'PG-13', 'R', 'NC-17']
+  
   def appropriate_for_birthdate?(birthdate)
     Movie.appropriate_ratings_for_birthdate(birthdate).include? rating
   end

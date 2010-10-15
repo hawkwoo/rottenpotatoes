@@ -1,8 +1,11 @@
-<h1> Results </h1>
+<h1> Choose a movie to add </h1>
 
-<% @results.each do |entry| %>
-  Title: <%= entry[:title] %><br/>
-  Overview: <%= entry[:overview] %><br/> 
-  Rating: <%= entry[:rating] %><br/> 
-  Released: <%= entry[:released] %><br/><br/>
-<% end %>
+<ol>
+	<% @results.each do |movie| %>
+		<li>
+			<%= link_to movie[:title], :controller=>"movies", :action=>"add", :id=>movie[:id] %>
+		</li>
+	<% end %>
+	<br>
+	<li><%= link_to 'None of these', '/movies/search' %></li>
+</ol>
