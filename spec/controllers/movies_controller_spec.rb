@@ -22,6 +22,7 @@ describe MoviesController do
     end
   end
 
+=begin
   describe "GET new" do
     it "assigns a new movie as @movie" do
       Movie.stub(:new).and_return(mock_movie)
@@ -29,6 +30,7 @@ describe MoviesController do
       assigns[:movie].should equal(mock_movie)
     end
   end
+=end
 
   describe "GET edit" do
     it "assigns the requested movie as @movie" do
@@ -61,11 +63,13 @@ describe MoviesController do
         assigns[:movie].should equal(mock_movie)
       end
 
+=begin
       it "re-renders the 'new' template" do
         Movie.stub(:new).and_return(mock_movie(:save => false))
         post :create, :movie => {}
         response.should render_template('new')
       end
+=end
     end
 
   end

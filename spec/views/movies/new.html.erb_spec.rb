@@ -1,3 +1,4 @@
+=begin
 require 'spec_helper'
 
 describe "/movies/new.html.erb" do
@@ -22,3 +23,4 @@ describe "/movies/new.html.erb" do
     end
   end
 end
+=end

@@ -10,9 +10,9 @@ describe MoviesController do
       #{ :get => "/movies" }.should route_to(:controller => "movies", :action => "index")
     #end
 
-    it "recognizes and generates #new" do
-      { :get => "/movies/new" }.should route_to(:controller => "movies", :action => "new")
-    end
+    #it "recognizes and generates #new" do
+    #  { :get => "/movies/new" }.should route_to(:controller => "movies", :action => "new")
+    #end
 
     it "recognizes and generates #show" do
       { :get => "/movies/1" }.should route_to(:controller => "movies", :action => "show", :id => "1")

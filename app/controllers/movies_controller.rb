@@ -117,7 +117,7 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.xml
   def create
-    @movie = createMovieFromTmdbResult(getOneMovieFromTmdb(params[:id]))
+    @movie = Movie.new(params[:movie])
 
     respond_to do |format|
       if @movie.save
