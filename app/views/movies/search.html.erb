@@ -7,7 +7,7 @@
 <% form_tag '/movies/results', :method => 'get' do %>
 	
   <p>
-		Title:<br>
+		<%= label_tag :title, "Title:" %><br>
     <%= text_field_tag :title, params[:title], :size => 35 %><br><br>
     <%= submit_tag "Search", :name => nil %>
   </p>

@@ -10,6 +10,15 @@ module NavigationHelpers
 
     when /the home\s?page/
       '/'
+    
+    when /title search page/i
+      '/movies/search'
+    
+    when /search results page/i
+      '/movies/results'
+    
+    when /add movie page/i
+      '/movies/add'
 
     # Add more mappings here.
     # Here is an example that pulls values out of the Regexp:
