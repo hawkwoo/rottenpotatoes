@@ -37,12 +37,15 @@ class MoviesController < ApplicationController
   def getFiveMoviesFromTmdb(title)
     Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
     searchResults = TmdbMovie.find(:title=>title, :limit=>5, :expand_results=>false)
+    # if find returns just one movie, wrap it in an array
+    searchResults = [searchResults] if not searchResults.is_a? Enumerable
     results = []
     searchResults.each do |movie|
       results << 
       {
         :title => movie.name,
-        :id => movie.id
+        :id => movie.id,
+        :score => movie.score
       }
     end
     results
@@ -51,7 +54,7 @@ class MoviesController < ApplicationController
   # returns a Tmdb entry for the title
   def getOneMovieFromTmdb(id)
     Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
-    movie = TmdbMovie.find(:id=>id, :limit=>1, :expand_results=>true)
+    movie = TmdbMovie.find(:id=>id, :limit=>1, :expand_results=>false)
   end
   
   # returns a Movie with the fields from a Tmdb entry
@@ -59,6 +62,7 @@ class MoviesController < ApplicationController
     movie = Movie.new
     movie.title = entry.name
     movie.overview = entry.overview
+    movie.score = entry.rating.to_f
     movie.rating = entry.certification
     movie.released_on = Time.parse(entry.released)
     movie.genres = tmdbGenresToString(entry.genres)
@@ -78,6 +82,7 @@ class MoviesController < ApplicationController
   
   def add
     @movie = createMovieFromTmdbResult(getOneMovieFromTmdb(params[:id]))
+    @id = params[:id]
   end
 
   # GET /movies/1
@@ -91,6 +96,7 @@ class MoviesController < ApplicationController
     end
   end
 
+=begin
   # GET /movies/new
   # GET /movies/new.xml
   def new
@@ -101,6 +107,7 @@ class MoviesController < ApplicationController
       format.xml  { render :xml => @movie }
     end
   end
+=end
 
   # GET /movies/1/edit
   def edit
@@ -110,14 +117,14 @@ class MoviesController < ApplicationController
   # POST /movies
   # POST /movies.xml
   def create
-    @movie = Movie.new(params[:movie])
+    @movie = createMovieFromTmdbResult(getOneMovieFromTmdb(params[:id]))
 
     respond_to do |format|
       if @movie.save
         format.html { redirect_to(@movie, :notice => 'Movie was successfully created.') }
         format.xml  { render :xml => @movie, :status => :created, :location => @movie }
       else
-        format.html { render :action => "new" }
+        format.html { render :action => "search" }
         format.xml  { render :xml => @movie.errors, :status => :unprocessable_entity }
       end
     end

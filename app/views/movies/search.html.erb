@@ -1,6 +1,11 @@
 <h1> Search </h1>
 
+<% form_for(@movie) do |f| %>
+  <%= f.error_messages %>
+<% end %>
+
 <% form_tag '/movies/results', :method => 'get' do %>
+	
   <p>
 		Title:<br>
     <%= text_field_tag :title, params[:title], :size => 35 %><br><br>

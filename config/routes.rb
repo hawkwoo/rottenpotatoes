@@ -1,5 +1,6 @@
 ActionController::Routing::Routes.draw do |map|
   map.connect '/', :controller=>"movies"
+  map.connect 'movies/new', :controller=>"movies", :action=>"search"
   map.connect 'movies/search', :controller=>"movies", :action=>"search"
   map.connect 'movies/results', :controller=>"movies", :action=>"results"
   map.connect 'movies/add', :controller=>"movies", :action=>"add"

@@ -1,30 +1,34 @@
 <h1> Add this movie? </h1>
 
-<% form_for(@movie) do |f| %>
-  <%= f.error_messages %>
+<p>
+  <b>Title:</b>
+  <%=h @movie.title %>
+</p>
 
-  <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
-  </p>
-  <p>
-    <%= f.label :overview %><br />
-    <%= f.text_area :overview %>
-  </p>
-  <p>
-    <%= f.label :rating %><br />
-    <%= f.text_field :rating %>
-  </p>
-  <p>
-    <%= f.label :released_on %><br />
-    <%= f.date_select :released_on %>
-  </p>
-	<p>
-		<%= f.label :genres %><br />
-		<%= f.text_field :genres %>
-	</p>
-  <p>
-   	<%= f.submit 'Add' %>
-  </p>
-<% end %>
+<p>
+  <b>Overview:</b>
+  <%=h @movie.overview %>
+</p>
+
+<p>
+	<b>Score:</b>
+	<%=h @movie.score %>
+</p>
+
+<p>
+  <b>Rating:</b>
+  <%=h @movie.rating %>
+</p>
+
+<p>
+  <b>Released on:</b>
+  <%=h @movie.released_on %>
+</p>
+
+<p>
+	<b>Genre(s):</b>
+	<%=h @movie.genres %>
+</p>
+
+<%= button_to 'Add', :controller=>"movies", :action=>"create", :id=>@id %><br />
 <%= button_to 'Cancel', '/movies/search' %>
