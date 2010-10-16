@@ -33,4 +33,4 @@
 <%= button_to 'Add', :controller=>"movies", :action=>"create", :method=>"post",
  	:movie=>{:title=>@movie.title, :overview=>@movie.overview, :score=>@movie.score, :rating=>@movie.rating,
 		:released_on=>@movie.released_on, :genres=>@movie.genres } %><br />
-<%= button_to 'Cancel', '/movies/search' %>
+<%= button_to 'Back', '/movies/results?title='+@searchTitle %>
