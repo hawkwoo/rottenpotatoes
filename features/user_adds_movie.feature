@@ -31,6 +31,13 @@ Feature: User adds movie
 		Then I should be on the search results page
 		And I should see "District 9"
 		And I should see "None of these"
+	
+	Scenario: search for another title (with 0 search results from TMDB)
+		Given I am on the title search page
+		When I fill in "title" with "Nonexistant Movie"
+		And I press "Search"
+		Then I should be on the title search page
+		And I should see "Movie not found"
 		
 	Scenario: select 'None of these'
 		Given I am at the search results page for "Wall-E"

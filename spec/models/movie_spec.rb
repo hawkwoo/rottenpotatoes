@@ -189,5 +189,19 @@ describe Movie do
       end
     end
   end
+  
+=begin
+  describe "hw3 part2a: when a user submits a completely valid form and saves the record" do
+    before(:each) do
+      @database = []
+      @movie = mock_model(Movie, :title=>"Valid Movie", :overview=>"Valid overview", :score=>10.0,
+        :rating=>"G", :released_on=>"#{Time.now}", genres=>"Action, Adventure")
+      @movie.stub!()
+    end
+    it "should add a new entry to the database" do
+      
+    end
+  end
+=end
 
 end

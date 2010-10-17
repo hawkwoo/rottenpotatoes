@@ -45,7 +45,6 @@ class MoviesController < ApplicationController
       {
         :title => movie.name,
         :id => movie.id,
-        :score => movie.score
       }
     end
     results
