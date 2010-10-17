@@ -126,8 +126,7 @@ class MoviesController < ApplicationController
       results << 
       {
         :title => movie.name,
-        :id => movie.id,
-        :score => movie.score
+        :id => movie.id
       }
     end
     results
