@@ -43,8 +43,8 @@ class TmdbApi
     entry = OpenStruct.new
     doc = Hpricot(open(URI.escape("http://api.themoviedb.org/2.1/Movie.getInfo/en/xml/"+@@api_key+"/"+id)))
     entry.tmdb_id = id
-    entry.name = CGI.unescapeHTML(doc.at("name").inner_html)
-    entry.overview = CGI.unescapeHTML(doc.at("overview").inner_html) if doc.at("overview")
+    entry.name = doc.at("name").inner_html
+    entry.overview = doc.at("overview").inner_html if doc.at("overview")
     entry.rating = doc.at("rating").inner_html if doc.at("rating")
     entry.certification = doc.at("certification").inner_html if doc.at("certification")
     entry.released = doc.at("released").inner_html if doc.at("released")

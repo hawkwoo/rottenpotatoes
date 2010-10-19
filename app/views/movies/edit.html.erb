@@ -4,28 +4,28 @@
   <%= f.error_messages %>
 
   <p>
-    <%= f.label :title %><br />
-    <%= f.text_field :title %>
+    <%=h f.label :title %><br />
+    <%=h f.text_field :title %>
   </p>
   <p>
-    <%= f.label :overview %><br />
-    <%= f.text_area :overview %>
+    <%=h f.label :overview %><br />
+    <%=h f.text_area :overview %>
   </p>
 	<p>
-		<%= f.label :score %><br />
-		<%= f.text_field :score %>
+		<%=h f.label :score %><br />
+		<%=h f.text_field :score %>
 	</p>
   <p>
-    <%= f.label :rating %><br />
-    <%= f.select :rating, [ 'G', 'PG', 'PG-13', 'R', 'NC-17' ] %>
+    <%=h f.label :rating %><br />
+    <%=h f.select :rating, [ 'G', 'PG', 'PG-13', 'R', 'NC-17' ] %>
   </p>
   <p>
-    <%= f.label :released_on %><br />
-    <%= f.date_select :released_on %>
+    <%=h f.label :released_on %><br />
+    <%=h f.date_select :released_on %>
   </p>
 	<p>
-		<%= f.label :genres %><br />
-		<%= f.text_area :genres %>
+		<%=h f.label :genres %><br />
+		<%=h f.text_area :genres %>
 	</p>
   <p>
     <%= f.submit 'Update' %>
