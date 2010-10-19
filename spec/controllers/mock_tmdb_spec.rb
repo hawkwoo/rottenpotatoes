@@ -54,6 +54,16 @@ describe MoviesController do
       @movies.should have(1).things
       @movies.should == [@title_ids.first]
     end
+
+    it "should add one of the 5 movies to the database" do
+      TmdbMovie.stub!(:find).and_return(@tmdb_data)
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("X")
+      @movie = @movies.first
+      Movie.stub!(:new).and_return(@movie)
+      @movie = Movie.new(@movie)
+      @movie.stub!(:save).and_return(true)
+      @movie.save
+    end
     
     it "should return a list of 0 movies when the API call returns nothing" do
       TmdbMovie.stub!(:find).and_return([])
@@ -62,6 +72,56 @@ describe MoviesController do
     end
   end
   
+  describe "hw3 part3: when calling the TMDb API through getFiveMoviesFromTmdb" do
+    it "should return a list of 1 movie when searching for District 9" do
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("District 9")
+      @movies.should have(1).things
+      @movies.first[:title].should == "District 9"
+    end
+    
+    it "should return a list without the title of Wall-E when searching for Wall-E" do
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("Wall-E")
+      @movies.each do |movie|
+        movie[:title].should_not == "Wall-E"
+      end
+    end
+
+    it "should return a list of 5 movie when searching for The Matrix" do
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("The Matrix")
+      @movies.should have(5).things
+      @movies.first[:title].should == "The Matrix"
+    end
+    
+    it "should return a list of 1 movie when searching for The Matrix Reloaded" do
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("The Matrix Reloaded")
+      @movies.should have(1).things
+      @movies.first[:title].should == "The Matrix Reloaded"
+    end
+
+    it "should add the selected movie to the database when all form fields are present" do
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("District 9")
+      @movie = @movies.first
+      @movie = MoviesController.new.getOneMovieFromTmdb(@movie[:id])
+      @movie = MoviesController.new.createMovieFromTmdbResult(@movie)
+      @movie.save!
+      Movie.find_by_title("District 9").should be_valid
+    end
+
+    it "should add the selected movie to the database when not all form fields are present" do
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("Snow White")
+      @movie = @movies.first
+      @movie = MoviesController.new.getOneMovieFromTmdb(@movie[:id])
+      @movie = MoviesController.new.createMovieFromTmdbResult(@movie)
+      @movie.save!
+      Movie.find_by_title("Snow White").should be_valid
+    end
+
+    it "should return a list of 0 movies when the API call returns nothing" do
+      @movies = MoviesController.new.getFiveMoviesFromTmdb("nonexistent")
+      @movies.should have(0).things
+    end
+  end
+
   describe "helper method tmdbGenresToString" do
     it "should return the empty string if the movie has no genres listed in TMDb" do
       @tmdb_entry = OpenStruct.new({:id=>"1", :name=>"Movie A", :overview=>"A", :rating=>1.0, 
@@ -82,5 +142,6 @@ describe MoviesController do
       @genres.should == "Action, Adventure, Comedy"
     end
   end
+
   
 end
