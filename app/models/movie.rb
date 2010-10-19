@@ -2,8 +2,8 @@ class Movie < ActiveRecord::Base
 
   validates_presence_of :title, :overview
   validates_uniqueness_of :title
-  validates_length_of :overview, :minimum => 10
-  validates_inclusion_of :rating, :in => ['G', 'PG', 'PG-13', 'R', 'NC-17']
+  #validates_length_of :overview, :minimum => 10
+  #validates_inclusion_of :rating, :in => ['G', 'PG', 'PG-13', 'R', 'NC-17']
   validates_numericality_of :score, :only_integer => false, :message => "can only be a number"
   validates_inclusion_of :score, :in => 0.0..10.0, :message => "can only be between 0.0 and 10.0"
   

@@ -132,4 +132,23 @@ describe MoviesController do
     end
   end
 
+=begin
+  describe "hw3 part2a: POST create" do
+    it "saves a valid movie to the database when the user clicks the Save button"
+      @movie = mock_model(Movie, :title=>"Valid Movie", :overview=>"Valid overview", :score=>10.0,
+        :rating=>"G", :released_on=>"#{Time.now}", genres=>"Action, Adventure")
+      @movie.stub!(:save).and_yield do 
+=end
+
+  describe "hw3 part2a: when user submits a completely valid form and saves the record" do
+    it "should be act as if it is added to the database" do
+      @movie = mock_model(Movie)
+      Movie.should_receive(:new).with({"title"=>"the title", "overview"=>"the overview", "score"=>"5.0", "rating"=>"10.0", "released_on"=>"1-1-10", "genres"=>"action, drama"}).and_return(@movie)
+      @movie.should_receive(:save).and_return(true)
+      post :create, :movie=>{:title=>"the title", :overview=>"the overview", :score=>"5.0", :rating=>"10.0", :released_on=>"1-1-10", :genres=>"action, drama"}
+      response.should redirect_to(movie_url(@movie))
+    end
+  end
+
+
 end

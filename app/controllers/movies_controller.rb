@@ -1,4 +1,12 @@
+require 'tmdb_api'
+
 class MoviesController < ApplicationController
+  before_filter :do_tmdb_setup
+  
+  def do_tmdb_setup
+    @tmdb_api = TmdbApi.new
+  end
+  
   # GET /movies
   # GET /movies.xml
   def index
@@ -25,7 +33,7 @@ class MoviesController < ApplicationController
     if params[:title].empty?
       redirect_to("/movies/search", :notice => "Please enter a valid title.")
     else
-      @results = getFiveMoviesFromTmdb(params[:title])
+      @results = @tmdb_api.getFiveMoviesFromTmdb(params[:title])
       session[:searchTitle] = params[:title]
       if @results.empty?
         redirect_to("/movies/search", :notice => "Movie not found.")
@@ -34,7 +42,7 @@ class MoviesController < ApplicationController
   end
   
   def add
-    @movie = createMovieFromTmdbResult(getOneMovieFromTmdb(params[:id]))
+    @movie = @tmdb_api.createMovieFromTmdbResult(@tmdb_api.getOneMovieFromTmdb(params[:id]))
     @searchTitle = session[:searchTitle]
     @id = params[:id]
   end
@@ -110,55 +118,6 @@ class MoviesController < ApplicationController
       format.html { redirect_to(movies_url) }
       format.xml  { head :ok }
     end
-  end
-
-  private
-
-  # returns a collection of 5 {title, id} pairs
-  # corresponding to search results for title
-  def getFiveMoviesFromTmdb(title)
-    Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
-    searchResults = TmdbMovie.find(:title=>title, :limit=>5, :expand_results=>false)
-    # if find returns just one movie, wrap it in an array
-    searchResults = [searchResults] if not searchResults.is_a? Enumerable
-    results = []
-    searchResults.each do |movie|
-      results << 
-      {
-        :title => movie.name,
-        :id => movie.id
-      }
-    end
-    results
-  end
-  
-  # returns a Tmdb entry for the id
-  def getOneMovieFromTmdb(id)
-    Tmdb.api_key = "0e4d2f4ef3b595d34223dd7f2f51767d"
-    movie = TmdbMovie.find(:id=>id, :limit=>1, :expand_results=>false)
-  end
-  
-  # returns a Movie with the fields from a Tmdb entry
-  def createMovieFromTmdbResult(entry)
-    movie = Movie.new
-    movie.title = entry.name
-    movie.overview = entry.overview
-    movie.score = entry.rating.to_f
-    movie.rating = entry.certification
-    movie.released_on = Time.parse(entry.released)
-    movie.genres = tmdbGenresToString(entry.genres)
-    movie
-  end
-  
-  def tmdbGenresToString(genres)
-    result = ""
-    if genres
-      genres.each do |genre|
-        result += (genre.name + ", ")
-      end
-      result = result[0, result.length - 2] if not result.empty?
-    end
-    result
   end
   
 end

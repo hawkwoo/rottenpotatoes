@@ -9,5 +9,5 @@ Given /I have added "([^"]*)"$/ do |movie_name|
   fill_in('title', :with=>movie_name)
   click_button('Search')
   click_link(movie_name)
-  click_button('Add')
+  click_button('Save')
 end
