@@ -131,22 +131,24 @@ describe MoviesController do
       response.should redirect_to(movies_url)
     end
   end
-
-=begin
-  describe "hw3 part2a: POST create" do
-    it "saves a valid movie to the database when the user clicks the Save button"
-      @movie = mock_model(Movie, :title=>"Valid Movie", :overview=>"Valid overview", :score=>10.0,
-        :rating=>"G", :released_on=>"#{Time.now}", genres=>"Action, Adventure")
-      @movie.stub!(:save).and_yield do 
-=end
-
+  
   describe "hw3 part2a: when user submits a completely valid form and saves the record" do
     it "should be act as if it is added to the database" do
-      @movie = mock_model(Movie)
-      Movie.should_receive(:new).with({"title"=>"the title", "overview"=>"the overview", "score"=>"5.0", "rating"=>"10.0", "released_on"=>"1-1-10", "genres"=>"action, drama"}).and_return(@movie)
-      @movie.should_receive(:save).and_return(true)
-      post :create, :movie=>{:title=>"the title", :overview=>"the overview", :score=>"5.0", :rating=>"10.0", :released_on=>"1-1-10", :genres=>"action, drama"}
-      response.should redirect_to(movie_url(@movie))
+      @time = Time.now
+      @fake_movie = mock_model(Movie, :title=>"the title", :overview=>"the overview", :score=>5.0, 
+        :rating=>"PG", :released_on=>@time, :genres=>"Action, Drama")
+      Movie.should_receive(:new).with({"title"=>"the title", "overview"=>"the overview", "score"=>"5.0", 
+        "rating"=>"PG", "released_on"=>"#{@time}", "genres"=>"Action, Drama"}).and_return(@fake_movie)
+      @fake_database = []
+      @fake_movie.should_receive(:save) {@fake_database << @fake_movie}
+      # the user action of submitting a valid form
+      post :create, :movie=>{:title=>"the title", :overview=>"the overview", :score=>"5.0", :rating=>"PG", :released_on=>"#{@time}", :genres=>"Action, Drama"}
+      response.should redirect_to(movie_url(@fake_movie))
+      @fake_database[0].title.should == "the title"
+      @fake_database[0].overview.should == "the overview"
+      @fake_database[0].rating.should == "PG"
+      @fake_database[0].score.should == 5.0
+      @fake_database[0].genres.should == "Action, Drama"
     end
   end
 

@@ -43,12 +43,16 @@ describe TmdbApi do
     it "should add one of the 5 movies to the database" do
       @tmdb_api = TmdbApi.new
       @tmdb_api.stub!(:tmdbApiCall).and_return(@tmdb_data)
-      @movies = @tmdb_api.getFiveMoviesFromTmdb("X")
-      @movie = @movies.first
-      Movie.stub!(:new).and_return(@movie)
-      @movie = Movie.new(@movie)
-      @movie.stub!(:save).and_return(true)
+      @fake_database = []
+      @tmdb_entry = @tmdb_api.tmdbApiCall[3]
+      @movie = @tmdb_api.createMovieFromTmdbResult(@tmdb_entry)
+      @movie.stub!(:save) {@fake_database << @movie}
       @movie.save
+      @fake_database[0].title.should == "Movie D"
+      @fake_database[0].overview.should == "D"
+      @fake_database[0].rating.should == "G"
+      @fake_database[0].score.should == 4.0
+      @fake_database[0].genres.should == "Action, Adventure, Comedy"
     end
     
     it "should return a list of 0 movies when the API call returns nothing" do
