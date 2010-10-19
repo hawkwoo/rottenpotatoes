@@ -6,42 +6,50 @@ describe Movie do
       :title => "Pocahontas",
       :overview => "A movie about the new world.",
       :rating => "G",
-      :released_on => Time.parse("1/1/1995")
+      :released_on => Time.parse("1/1/1995"),
+      :score => 10.0
     }
     @g = Movie.create!({
       :title => "Snow White",
       :overview => "Disney movie about snow white",
       :rating => "G",
+      :score => 10.0
     })
     @lionking = Movie.create!({
       :title => "Lion King",
       :overview => "Disney movie about lion king",
       :rating => "G",
+      :score => 10.0
     })
     @pg = Movie.create!({
       :title => "Some PG Movie",
       :overview => "Some overview of a pg movie",
       :rating => "PG",
+      :score => 10.0
     })
     @pg13 = Movie.create!({
       :title => "Some PG-13 Movie",
       :overview => "Some pg13 movie with mild violence",
       :rating => "PG-13",
+      :score => 10.0
     })
     @another_pg13 = Movie.create!({
       :title => "Some PG-13 Movie2",
       :overview => "Some pg13 movie with swear words",
       :rating => "PG-13",
+      :score => 10.0
     })
     @r = Movie.create!({
       :title => "Some R Movie",
       :overview => "Some R lots of violents",
       :rating => "R",
+      :score => 10.0
     })
     @nc17 = Movie.create!({
       :title => "Some NC-17 Movie",
       :overview => "Some NC-17 lots of gore",
       :rating => "NC-17",
+      :score => 10.0
     })
   end
 
@@ -56,7 +64,8 @@ describe Movie do
       @no_title_attributes = {
         :overview => "A movie about the new world.",
         :rating => "G",
-        :released_on => Time.parse("1/1/1995")
+        :released_on => Time.parse("1/1/1995"),
+        :score => 10.0
       }
       @movie = Movie.new(@no_title_attributes)
       @movie.should_not be_valid
@@ -79,6 +88,7 @@ describe Movie do
         :title => "Lion King",
         :overview => "illegal copy of the lion king",
         :rating => "G",
+        :score => 10.0
       }
       @movie = Movie.new(@lionking2)
       @movie.should_not be_valid
@@ -101,6 +111,7 @@ describe Movie do
         :title => "unique title",
         :overview => "a very long overview",
         :rating => "G",
+        :score => 10.0
       }
       @movie = Movie.new(@validRating)
       @movie.should be_valid
