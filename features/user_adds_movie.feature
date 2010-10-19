@@ -48,13 +48,11 @@ Feature: User adds movie
 		Given I am at the search results page for "The Matrix Reloaded"
 		When I follow "The Matrix Reloaded"
 		Then I should be on the add movie page
-		And I should see "Title:"
-		And I should see "Overview:"
-		And I should see "Score:"
-		And I should see "Rating:"
-		And I should see "Released on:"
-		And I should see "Genre(s):"
-		And I should see "Add"
+		And the "title" field should contain "The Matrix Reloaded"
+		And the "overview" field should contain "In this second chapter of the"
+		And the "score" field should contain "6.2"
+		And the "rating" field should contain "R"
+		And the "genres" field should contain "Action, Science Fiction"
 		
 	Scenario: see the added movie on the movies page
 		Given I have added "Air Force One"

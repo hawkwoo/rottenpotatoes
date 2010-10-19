@@ -1,36 +1,35 @@
 <h1> Add this movie? </h1>
 
-<p>
-  <b>Title:</b>
-  <%=h @movie.title %>
-</p>
+<% form_for(@movie) do |f| %>
+  <%= f.error_messages %>
 
-<p>
-  <b>Overview:</b>
-  <%=h @movie.overview %>
-</p>
+  <p>
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </p>
+  <p>
+    <%= f.label :overview %><br />
+    <%= f.text_area :overview %>
+  </p>
+	<p>
+		<%= f.label :score %><br />
+		<%= f.text_field :score %>
+	</p>
+  <p>
+    <%= f.label :rating %><br />
+    <%= f.select :rating, [ 'G', 'PG', 'PG-13', 'R', 'NC-17' ] %>
+  </p>
+  <p>
+    <%= f.label :released_on %><br />
+    <%= f.date_select :released_on %>
+  </p>
+	<p>
+		<%= f.label :genres %><br />
+		<%= f.text_area :genres %>
+	</p>
+  <p>
+    <%= f.submit 'Add' %>
+  </p>
+<% end %>
 
-<p>
-	<b>Score:</b>
-	<%=h @movie.score %>
-</p>
-
-<p>
-  <b>Rating:</b>
-  <%=h @movie.rating %>
-</p>
-
-<p>
-  <b>Released on:</b>
-  <%=h @movie.released_on %>
-</p>
-
-<p>
-	<b>Genre(s):</b>
-	<%=h @movie.genres %>
-</p>
-
-<%= button_to 'Add', :controller=>"movies", :action=>"create", :method=>"post",
- 	:movie=>{:title=>@movie.title, :overview=>@movie.overview, :score=>@movie.score, :rating=>@movie.rating,
-		:released_on=>@movie.released_on, :genres=>@movie.genres } %><br />
 <%= button_to 'Back', '/movies/results?title='+@searchTitle %>
