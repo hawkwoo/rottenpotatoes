@@ -1,0 +1,9 @@
+Partners: Derrick Tao and Jason Wu
+
+We tried to split up the work 50-50, with each partner alternating between writing test cases and actual code. Derrick worked on the Rspec test cases and code for the views/MovieController, while Jason worked on the Cucumber test cases and the code for the TMDb API calls.
+
+Working in pairs sped up implementation greatly by allowing us to discuss test cases and overall implementation ideas.  Since neither of us were experts in using RSpec or Cucumber/Webrat, we helped each other learn more about these tools by writing brainstorming about test cases.
+
+It slowed down implementation slightly because, at times, we each had to take some time to read over code written by the other partner to understand its function. However, this was not much of an issue.
+
+Given another pair assignment, we would probably switch roles in writing RSpec and Cucumber tests.
