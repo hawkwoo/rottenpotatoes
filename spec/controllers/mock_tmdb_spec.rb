@@ -30,10 +30,12 @@ describe MoviesController do
   end
 
   describe "hw3 part2a: when user submits a completely valid form and saves the record" do
-    it "should be in the database" do
-      @movie = mock_model(Movie, :title=>"the title", :overview=>"the overview", :score=>"5.0", :rating=>"10.0", :released_on=>Time.now, :genres=>"action, drama")
-      Movie.stub!(:new).and_return(@movie)
-      Movie.new
+    it "should be act as if it is added to the database" do
+      @movie = mock_model(Movie)
+      Movie.should_receive(:new).with({"title"=>"the title", "overview"=>"the overview", "score"=>"5.0", "rating"=>"10.0", "released_on"=>"1-1-10", "genres"=>"action, drama"}).and_return(@movie)
+      @movie.should_receive(:save).and_return(true)
+      post :create, :movie=>{:title=>"the title", :overview=>"the overview", :score=>"5.0", :rating=>"10.0", :released_on=>"1-1-10", :genres=>"action, drama"}
+      response.should redirect_to(movie_url(@movie))
     end
   end
   
