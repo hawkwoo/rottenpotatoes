@@ -28,6 +28,16 @@ describe MoviesController do
   def mock_movie(stubs={})
     @mock_movie ||= mock_model(Movie, stubs)
   end
+
+  describe "hw3 part2a: when user submits a completely valid form and saves the record" do
+    it "should be in the database" do
+      @movie = mock_model(Movie)
+      Movie.should_receive(:new).with({:title=>"the title", :overview=>"the overview", :score=>"5.0", :rating=>"10.0", :released_on=>"1-1-10", :genres=>"action, drama"}).and_return(@movie)
+      @movie.should_receive(:save).and_return(true)
+      flash[:notice].should == "Movie was successfully created."
+      response.should redirect_to(movie_path(@movie))
+    end
+  end
   
   describe "hw3 part2b: when calling the TMDb API through getFiveMoviesFromTmdb" do
     it "should return a list of 5 movies when the API call returns 5 movies" do
