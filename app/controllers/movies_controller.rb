@@ -34,7 +34,7 @@ class MoviesController < ApplicationController
       redirect_to("/movies/search", :notice => "Please enter a valid title.")
     else
       @results = @tmdb_api.getFiveMoviesFromTmdb(params[:title])
-      #session[:searchTitle] = params[:title]
+      session[:searchTitle] = params[:title]
       if @results.empty?
         redirect_to("/movies/search", :notice => "Movie not found.")
       end
@@ -43,7 +43,7 @@ class MoviesController < ApplicationController
   
   def add
     @movie = @tmdb_api.createMovieFromTmdbResult(@tmdb_api.getOneMovieFromTmdb(params[:id]))
-    #@searchTitle = session[:searchTitle]
+    @searchTitle = session[:searchTitle]
     @id = params[:id]
   end
 
@@ -80,6 +80,7 @@ class MoviesController < ApplicationController
   # POST /movies.xml
   def create
     @movie = Movie.new(params[:movie])
+    @searchTitle = session[:searchTitle]
 
     respond_to do |format|
       if @movie.save
