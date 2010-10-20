@@ -5,11 +5,11 @@
 
   <p>
     <%=h f.label :title %><br />
-    <%=h f.text_field :title %>
+    <%=h CGI.unescapeHTML f.text_field :title %>
   </p>
   <p>
     <%=h f.label :overview %><br />
-    <%=h f.text_area :overview %>
+    <%=h CGI.unescapeHTML f.text_area :overview %>
   </p>
 	<p>
 		<%=h f.label :score %><br />
@@ -25,7 +25,7 @@
   </p>
 	<p>
 		<%=h f.label :genres %><br />
-		<%=h f.text_area :genres %>
+		<%=h CGI.unescapeHTML f.text_area :genres %>
 	</p>
   <p>
     <%= f.submit 'Update' %>
